@@ -2,7 +2,10 @@
 
 The page contains discoveries made while trying to understand the serial protocol used by LG air conditioners. 
 LG machines often include a dongle which connects to the main indoor board. 
-The dongle communicates using serial. 
+The dongle communicates using serial communication. 
+
+This work is in progress andI hope this can be helpful to other owners of LG units
+I will be glad to receive further information other users may decode based on this crude initial draft. 
 
 # Connector
 
@@ -88,6 +91,60 @@ A complete switch off command has the below content:
 
 # known commands
 
+## Switch on from dongle
+
+complete serial frame: 
+0x04·0x00·0x00·0x00·0x65·0x02·0x01·0x00·0x09·0x7D·0xC1·0x7E·0x40·0x7E·0x86·0x7F·0x90·0x2A·0x48·0x48
+
+### Command 
+0x65·0x02·0x01
+### sequence
+Sequence number is alway 0
+### payload 7D (operation on off)
+value C1 for switch on
+value C0 for swtich off
+### payload 7E (mode cool/auto/dehum..)
+cooling		  40
+dehum		    41
+fan-only		42
+auto		    43
+### payload 7E (fan mode)
+Fan speed | Code 
+----- | ---
+Auto|  88
+1		|  82
+2		|  83
+3		|  84
+4		|  85
+5		|  86
+### payload 7F90 (setpoint)
+For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte
+I have assumed that type is 2 bytes so far
+
+Setpoint C | Encoding LG 
+----- | -----
+21		|2a
+22		|2c
+23		|2E
+24		|30
+25		|32
+26		|34
+27		|36
+28		|38
+29		|3A
+
+## switch off from dongle 
+0x04·0x00·0x00·0x00·0x65·0x02·0x01·0x00·0x02·0x7D·0xC0·0x73·0xC2
+### command 65 02 01
+### payload 7D C0 
+means request power off
+### response from AC
+0x04·0x00·0x00·0x00·0x87·0x02·0x10·0x00·0x00·0x77·0xE0
+Above payload seems to be a 'standard' ack to a request from dongle 
+#### ACK 87 02 10 
+#### no payload
+
+
 ## update from AC 
 sent on regular basis
 ### command 
@@ -160,62 +217,5 @@ it is not known what the payload means
 ### response from AC
 0x04·0x00·0x00·0x00·0x87·0x01·0x10·0x01·0x00·0xDF·0x0D
 #### ACK command 87 01 10 
-
-
-## Switch on from dongle
-
-complete serial frame: 
-0x04·0x00·0x00·0x00·0x65·0x02·0x01·0x00·0x09·0x7D·0xC1·0x7E·0x40·0x7E·0x86·0x7F·0x90·0x2A·0x48·0x48
-
-### Command 
-0x65·0x02·0x01
-### sequence
-Sequence number is alway 0
-### payload 7D (operation on off)
-value C1 for switch on
-value C0 for swtich off
-### payload 7E (mode cool/auto/dehum..)
-cooling		  40
-dehum		    41
-fan-only		42
-auto		    43
-### payload 7E (fan mode)
-Fan speed | Code 
------ | ---
-Auto|  88
-1		|  82
-2		|  83
-3		|  84
-4		|  85
-5		|  86
-### payload 7F90 (setpoint)
-For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte
-I have assumed that type is 2 bytes so far
-
-Setpoint C | Encoding LG 
------ | -----
-21		|2a
-22		|2c
-23		|2E
-24		|30
-25		|32
-26		|34
-27		|36
-28		|38
-29		|3A
-
-## switch off from dongle 
-0x04·0x00·0x00·0x00·0x65·0x02·0x01·0x00·0x02·0x7D·0xC0·0x73·0xC2
-### command 65 02 01
-### payload 7D C0 
-means request power off
-### response from AC
-0x04·0x00·0x00·0x00·0x87·0x02·0x10·0x00·0x00·0x77·0xE0
-Above payload seems to be a 'standard' ack to a request from dongle 
-#### ACK 87 02 10 
-#### no payload
-
-
-
 
 
