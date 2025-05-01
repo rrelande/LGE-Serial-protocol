@@ -101,18 +101,20 @@ only one of the below payloads are seen with the command
 0xCA·0xD0·0x90
 type CA D0
 value roughly according to below table: 
-F	  C	    LG
-75	23,89	8C
-76	24,44	8D
-77	25,00	8E
-78	25,56	8F
-79	26,11	90
-80	26,67	91
-81	27,22	92
-82	27,78	93
-83	28,33	94
-84	28,89	97
-85	29,44	98
+| Farenheit        | Celsius            | value in LG  |
+| ----------------|---------------------|--------------|
+|F	|  C	 |   LG|
+75|	23,89|	8C
+76|	24,44	|8D
+77	|25,00|	8E
+78|	25,56	|8F
+79|	26,11	|90
+80|	26,67	|91
+81|	27,22	|92
+82|	27,78	|93
+83|	28,33	|94
+84|	28,89	| 97
+85|	29,44 |	98
 #### payload BE 81
 This type and value is not identified
 #### 0x06·0xBF·0xA0·0x03·0x05·0xBE·0x80·
@@ -178,24 +180,29 @@ dehum		    41
 fan-only		42
 auto		    43
 ### payload 7E (fan mode)
-Auto  88
-1		  82
-2		  83
-3		  84
-4		  85
-5		  86
+Fan speed | Code 
+----- | ---
+Auto|  88
+1		|  82
+2		|  83
+3		|  84
+4		|  85
+5		|  86
 ### payload 7F90 (setpoint)
 For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte
 I have assumed that type is 2 bytes so far
-21		2a
-22		2c
-23		2E
-24		30
-25		32
-26		34
-27		36
-28		38
-29		3A
+
+Setpoint C | Encoding LG 
+----- | -----
+21		|2a
+22		|2c
+23		|2E
+24		|30
+25		|32
+26		|34
+27		|36
+28		|38
+29		|3A
 
 ## switch off from dongle 
 0x04·0x00·0x00·0x00·0x65·0x02·0x01·0x00·0x02·0x7D·0xC0·0x73·0xC2
