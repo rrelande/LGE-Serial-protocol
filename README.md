@@ -78,12 +78,13 @@ Value of 0 means that only 2 bytes are used for the full TLV
 Value OF 1 means that 3 bytes are used for the full TLV data unit. 
 * remaining 4 bits are for encoding the value, which indicate 16 values in the most basic TLV. 
 
-To help identify the TLV, the full 2 bytes are used here
-although only the 10 first bytes define the type of data unit
+To help identify the TLV, the full 2 bytes are used here in documentation
+although only the 10 first bytes define the type of data unit. 
+To help documentation, It assumes that value is 0. 
 
 for example 
-indoor temperature is 7f 50 as type
-setpoint if 7f 90
+* indoor temperature type is 7f 50 
+* setpoint type is 7f 90
 
 ### checksum CRC16
 
