@@ -65,18 +65,18 @@ The sequence number is incremented for every subsequent request of the same kind
 remains at 0x00 for single time commands
 
 ### length of payload
-1 byte length of payload 
-which apparently restricts the payload length to 255
+* 1 byte length of payload 
+This apparently restricts the payload length to 255
 in my expereince the largest payload has been 124
 
 ### variable payload 
 The payload includes a set of 'type-lenght-value' data units. 
-First 10 bits are for the data type (T)
-Subsequent 2 bit indicate the length (L) in byte of the value, 
+* First 10 bits are for the data type (T)
+* Subsequent 2 bit indicate the length (L) in byte of the value, 
 valid values is mostly 0 and 1.
 Value of 0 means that only 2 bytes are used for the full TLV
 Value OF 1 means that 3 bytes are used for the full TLV data unit. 
-remaining 4 bits are for encoding the value, which indicate 16 values in the most basic TLV. 
+* remaining 4 bits are for encoding the value, which indicate 16 values in the most basic TLV. 
 
 To help identify the TLV, the full 2 bytes are used here
 although only the 10 first bytes define the type of data unit
