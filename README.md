@@ -70,12 +70,20 @@ which apparently restricts the payload length to 255
 in my expereince the largest payload has been 124
 
 ### variable payload 
-The payload includes a set of 'type-value' pairs. 
-interestingly the length of type value is variable with no obvious clear rule to determine the length of the value or type. 
+The payload includes a set of 'type-lenght-value' data units. 
+First 10 bits are for the data type (T)
+Subsequent 2 bit indicate the length (L) in byte of the value, 
+valid values is mostly 0 and 1.
+Value of 0 means that only 2 bytes are used for the full TLV
+Value OF 1 means that 3 bytes are used for the full TLV data unit. 
+remaining 4 bits are for encoding the value, which indicate 16 values in the most basic TLV. 
+
+To help identify the TLV, the full 2 bytes are used here
+although only the 10 first bytes define the type of data unit
 
 for example 
-fan speed seems to use 7e as type
-indoor temperature is ca d0 as type
+indoor temperature is 7f 50 as type
+setpoint if 7f 90
 
 ### checksum CRC16
 
@@ -117,9 +125,12 @@ Auto|  88
 3		|  84
 4		|  85
 5		|  86
+
 ### payload 7F90 (setpoint)
 For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte
-I have assumed that type is 2 bytes so far
+I have assumed that type is 2 bytes so far. 
+
+The value of temperature in C is hex_value / 2
 
 Setpoint C | Encoding LG 
 ----- | -----
@@ -154,24 +165,25 @@ increments regularly
 as the AC sends command on regular basis
 ### Associated payloads
 only one of the below payloads are seen with the command
-#### payload CAD0 (indoor temperature)
-0xCA·0xD0·0x90
-type CA D0
-value roughly according to below table: 
-| Farenheit        | Celsius            | value in LG  |
-| ----------------|---------------------|--------------|
-|F	|  C	 |   LG|
-75|	23,89|	8C
-76|	24,44	|8D
-77	|25,00|	8E
-78|	25,56	|8F
-79|	26,11	|90
-80|	26,67	|91
-81|	27,22	|92
-82|	27,78	|93
-83|	28,33	|94
-84|	28,89	| 97
-85|	29,44 |	98
+#### payload 7F50 (indoor temperature)
+0x7f·0x50·0x3d
+type 7F 50
+The value of temperature in C is hex_value / 2 and result converted to decimal.
+Same as for setpoint. 
+it only support .5 degree resolution. 
+
+Setpoint C | Encoding LG 
+----- | -----
+21		|2a
+22		|2c
+23		|2E
+24		|30
+25		|32
+26		|34
+27		|36
+28		|38
+29		|3A
+
 #### payload BE 81
 This type and value is not identified
 #### 0x06·0xBF·0xA0·0x03·0x05·0xBE·0x80·
