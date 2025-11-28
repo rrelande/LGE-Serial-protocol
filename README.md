@@ -120,18 +120,21 @@ complete serial frame:
 ### sequence
 Sequence number is alway 0
 ### payload 7D C0 (operation on off)  
-First 12 bits is 7D C  (Type and length)
+First 12 bits is 7D C  (Type and length)  
 value C1 for switch on
 value C0 for swtich off
 ### payload 7E 40 (mode cool/auto/dehum..)
-First 12 bits is 7E 40 (Type and length)
-Possible values for the remaining 4 bits are: 
-cooling		  40
-dehum		    41
-fan-only		42
+Length is 0.  
+First 12 bits is 7E 40 (Type and length)  
+Possible values for the remaining 4 bits are:  
+cooling		  40  
+dehum		    41  
+fan-only		42  
 auto		    43  
 
-### payload 7E (fan mode)
+### payload 7E 80 (fan mode)
+
+Length is 0, total TLV is 2 bytes.  
 Fan speed | Code 
 ----- | ---
 Auto|  88
@@ -142,9 +145,8 @@ Auto|  88
 5		|  86
 
 ### payload 7F90 (setpoint)  
-For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte.  
-I have assumed that type is 2 bytes so far. 
-
+Payload length is 1 "additional" byte, so total TLV is 3 bytes.  
+ 
 The value of temperature in C is hex_value / 2
 
 Setpoint C | Encoding LG 
@@ -230,7 +232,7 @@ seems to be always 0x01
 
 ### payloads
 AA 42
-There is no information what t  his means
+There is no information what this means  
 
 ### response from dongle
 0x04·0x00·0x00·0x00·0x65·0x01·0x01·0x02·0x02·0xAA·0xC1·0xCC·0xDB
@@ -240,7 +242,7 @@ There is no information what t  his means
 0x04·0x00·0x00·0x00·0x65·0x01·0x02·0x01·0x02·0xAA·0xC1·0xB9·0xD5
 ### command 65 01 02
 ### payload AA C1
-it is not known what the payload means
+it is not known what the payload means  
 ### response from AC
 0x04·0x00·0x00·0x00·0x87·0x01·0x10·0x01·0x00·0xDF·0x0D
 #### ACK command 87 01 10 
