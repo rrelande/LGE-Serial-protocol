@@ -43,7 +43,7 @@ The dongle uses a quite traditional 8N1 setting:
 * 9600 bps
 
 
-## Format of frames
+## Format of frames (PDU)
 
 all values from serial line are in hexadecimal
 
@@ -70,17 +70,27 @@ This apparently restricts the payload length to 255 bytes
 in my experience the largest payload has been 124 bytes.  
 
 ### variable payload 
-The payload includes a set of 'type-lenght-value' data units.  
+The payload includes a set of 'type-length-value' data units.  
 * First 10 bits are for the data type (T)
 * Subsequent 2 bit indicate the length (L) in byte of the value, 
-valid values is mostly 0 and 1.  
-Value of 0 means that only 2 bits are used for the full TLV.  (only 16 different values in this most basic TLV).  
-Value OF 1 means that 3 bits are used for the full TLV data unit.  
-* remaining 4 bits are for encoding the value.  
+Known to be valid length is 0 and 1, but longer length is seen.  
+Lenght of 0 means that only 4 bits are used for value (V).
+It means that 2 bytes are used for the full TLV PDU, which maps conveniently into the 8 bit framed serial data stream. 
+(only 16 different values area available in this most basic TLV format).  
+Length of 1 means that 3 bytes are used for the full TLV data unit.  
+Length of Value field is then 4+8 bits=12 bits.  
+* remaining bits are for encoding the value.
+As indicated above, length of value is minimal 4 bits,
+frequently 12 bits,  
+occasionally longer.  
 
-To help identify the TLV, the full 2 bytes (16 bits) are denoted here in documentation
-although only the 10 first bytes define the type of data unit. 
-To help documentation, It assumes that value of remaining is 0.  
+### Data type dictionary 
+To help identify and document the identified TLV, the full 2 bytes (16 bits) are denoted here in documentation.  
+The 10 first bits define the type of data unit. 
+which is followed by 2 bits for length. A type always has a fixed associated length.  
+
+This means that type and length (12 bits)
+To help documentation, below denotation assumes that value (V) of remaining 4 bits (part of value) is 0.  
 
 Example of data type in PDU  
 * indoor temperature type is 7f 50 
