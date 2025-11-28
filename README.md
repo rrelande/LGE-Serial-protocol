@@ -56,40 +56,40 @@ There is always a 4 byte preamble
 04 00 00 00 
 
 ### command
-followed by a 3 byte command
-0x65	0x02	0x01 (example for power off)
+followed by a 3 byte command  
+0x65	0x02	0x01 (example for power off).  
 
 ### sequence number
-1 byte sequence number
-The sequence number is incremented for every subsequent request of the same kind 
-remains at 0x00 for single time commands
+1 byte sequence number  
+The sequence number is incremented for every subsequent request of the same kind  
+Sequence number remains at 0x00 for single time commands  
 
 ### length of payload
 * 1 byte length of payload 
-This apparently restricts the payload length to 255
-in my expereince the largest payload has been 124
+This apparently restricts the payload length to 255 bytes  
+in my experience the largest payload has been 124 bytes.  
 
 ### variable payload 
-The payload includes a set of 'type-lenght-value' data units. 
+The payload includes a set of 'type-lenght-value' data units.  
 * First 10 bits are for the data type (T)
 * Subsequent 2 bit indicate the length (L) in byte of the value, 
-valid values is mostly 0 and 1.
-Value of 0 means that only 2 bytes are used for the full TLV
-Value OF 1 means that 3 bytes are used for the full TLV data unit. 
-* remaining 4 bits are for encoding the value, which indicate 16 values in the most basic TLV. 
+valid values is mostly 0 and 1.  
+Value of 0 means that only 2 bits are used for the full TLV.  (only 16 different values in this most basic TLV).  
+Value OF 1 means that 3 bits are used for the full TLV data unit.  
+* remaining 4 bits are for encoding the value.  
 
-To help identify the TLV, the full 2 bytes are used here in documentation
+To help identify the TLV, the full 2 bytes (16 bits) are denoted here in documentation
 although only the 10 first bytes define the type of data unit. 
-To help documentation, It assumes that value is 0. 
+To help documentation, It assumes that value of remaining is 0.  
 
-for example 
+Example of data type in PDU  
 * indoor temperature type is 7f 50 
 * setpoint type is 7f 90
 
 ### checksum CRC16
 
 The two last bytes are CRC16 checksum of the entire frame including preamble to payload. 
-The CRC polynom is CRC-XMODEM
+The CRC polynom is CRC-XMODEM, implementations of that CRC are widely available.  
 
 ### Example
 
@@ -109,14 +109,18 @@ complete serial frame:
 0x65·0x02·0x01
 ### sequence
 Sequence number is alway 0
-### payload 7D (operation on off)
+### payload 7D C0 (operation on off)  
+First 12 bits is 7D C  (Type and length)
 value C1 for switch on
 value C0 for swtich off
-### payload 7E (mode cool/auto/dehum..)
+### payload 7E 40 (mode cool/auto/dehum..)
+First 12 bits is 7E 40 (Type and length)
+Possible values for the remaining 4 bits are: 
 cooling		  40
 dehum		    41
 fan-only		42
-auto		    43
+auto		    43  
+
 ### payload 7E (fan mode)
 Fan speed | Code 
 ----- | ---
@@ -127,8 +131,8 @@ Auto|  88
 4		|  85
 5		|  86
 
-### payload 7F90 (setpoint)
-For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte
+### payload 7F90 (setpoint)  
+For some reason either the type is on 2 bytes with value 1 byte or the value is 2 bytes with value one byte.  
 I have assumed that type is 2 bytes so far. 
 
 The value of temperature in C is hex_value / 2
