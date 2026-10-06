@@ -249,9 +249,9 @@ it is not known what the payload means
 
 # other repositories
 
-below repositories offer valuable insight on the LG digital protocol
-https://github.com/anszom/rethink
-https://github.com/JanM321/esphome-lg-controller
+below repositories offer valuable insight on the LG digital protocol  
+https://github.com/anszom/rethink   
+https://github.com/JanM321/esphome-lg-controller   
 
 
 #
