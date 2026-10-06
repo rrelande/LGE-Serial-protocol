@@ -247,4 +247,11 @@ it is not known what the payload means
 0x04·0x00·0x00·0x00·0x87·0x01·0x10·0x01·0x00·0xDF·0x0D
 #### ACK command 87 01 10 
 
+# other repositories
 
+below repositories offer valuable insight on the LG digital protocol
+https://github.com/anszom/rethink
+https://github.com/JanM321/esphome-lg-controller
+
+
+#
