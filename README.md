@@ -32,7 +32,7 @@ It may be possible to use the more widely known type JST HY which has the same p
 # Protocol
 
 The dongle and protocol seems to be common to a large variety of LG appliances, including dishwashers, fridges, kitchen hoods. 
-in this page, i have only resarched about air conditioner. 
+in this page, i have only researched about air conditioner. 
 
 ## Serial parameters
 
@@ -252,6 +252,15 @@ it is not known what the payload means
 below repositories offer valuable insight on the LG digital protocol  
 https://github.com/anszom/rethink   
 https://github.com/JanM321/esphome-lg-controller   
+
+The below valuable findings are collected from the rethink repository: 
+the serial protocol that LG RAC WiFi "modem" uses is basically the same as what modem wraps in MQTT packets that it then transmits to a ThinQ cloud server.
+Look at the UART framing format and RAC_056905_WW appliance description at the rethink project.
+Looking at the actual RAC_056905_WW rethink handler code can also be helpful since these Wiki pages are not yet updated with recent developments.
+
+https://github.com/anszom/rethink/wiki/TLVProtocol#uart-framing-format  
+https://github.com/anszom/rethink/wiki/Appliance%3ARAC_056905_WW  
+https://github.com/anszom/rethink/blob/master/rethink/cloud/devices/RAC_056905_WW.ts  
 
 
 #
